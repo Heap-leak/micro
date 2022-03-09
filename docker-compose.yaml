@@ -1,0 +1,42 @@
+version: "3.3"
+services:   
+  notification-service:
+    container_name: notification-service
+    image: notification-service
+    build:
+      context: notification-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8081:8081"
+    depends_on:
+      - database-service
+    networks:
+      - my_network
+      
+  database-service:
+    container_name: database-service
+    image: database-service
+    build:
+      context: database-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8080:8080"
+    depends_on:
+      - postgres
+    networks:
+      - my_network
+              
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    build:
+      context: database
+      dockerfile: ./Dockerfile
+    networks:
+      - my_network
+      
+networks:      
+  my_network:
+    driver: bridge
