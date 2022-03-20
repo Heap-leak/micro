@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: database-service
+  config:
+    import:
+    - "optional:configserver:http://configuration-service:8000/"
+  r2dbc:
+    url: r2dbc:postgresql://postgres:5432/postgres_db
+    username: postgres
+    password: root
+  
+
+  
+  

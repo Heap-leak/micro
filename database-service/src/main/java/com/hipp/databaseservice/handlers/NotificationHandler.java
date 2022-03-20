@@ -2,7 +2,6 @@ package com.hipp.databaseservice.handlers;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -19,9 +18,12 @@ import reactor.core.publisher.Mono;
 public class NotificationHandler {
 	Logger logger = LoggerFactory.getLogger(NotificationHandler.class);
 	
-	@Autowired
-	private NotificationService notificationService;
+	private final NotificationService notificationService;
 	
+	public NotificationHandler(NotificationService notificationService) {
+		this.notificationService = notificationService;
+	}
+
 	public Mono<ServerResponse> registration(@RequestBody ServerRequest request) {
 		return request.bodyToMono(NotificationRequest.class)
 				.map(req -> notificationService.registration(req.getNotificationUrl(), req.getUsername()))

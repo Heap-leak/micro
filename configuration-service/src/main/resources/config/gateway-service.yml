@@ -1,0 +1,20 @@
+server:
+  port:
+    8008
+    
+eureka:
+  client:
+    service-url:
+      defaultZone: http://discovery-service:8001/eureka/
+      
+spring:
+   cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+      routes:
+        - id: notification-service
+          uri: lb://notification-service
+          predicates: 
+            - Path=/notification/**

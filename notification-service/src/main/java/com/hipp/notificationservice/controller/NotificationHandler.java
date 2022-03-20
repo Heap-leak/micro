@@ -15,10 +15,13 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class NotificationHandler {
-	
-//	@Autowired
-//	WebClient webclient;
-	
+
+	private WebClient webClient;
+
+	public NotificationHandler(WebClient.Builder webClientBuilder) {
+		this.webClient = webClientBuilder.build();
+	}
+
 	public Mono<ServerResponse> registration(@RequestBody ServerRequest request) {
 		return request.bodyToMono(NotificationRequest.class)
 			.map(req -> registration(req))
@@ -31,50 +34,23 @@ public class NotificationHandler {
 				.flatMap(obj -> ServerResponse.ok().body(BodyInserters.fromValue("Deregistered")));
 	}
 	
-	private Mono<NotificationRegistry> registration(NotificationRequest request) {	
-		WebClient webClient = WebClient.create();
+	private Mono<NotificationRegistry> registration(NotificationRequest request) {
 		return webClient
 				.method(HttpMethod.POST)
 				.uri("http://database-service:8080/registration")
 				.body(BodyInserters.fromValue(request))
 				.retrieve()
 				.bodyToMono(NotificationRegistry.class);
-		
-		
-//		return webclient
-//		  .baseUrl("http://database-service:8080")
-//		  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-//		  .defaultUriVariables(Collections.singletonMap("url", "http://database-service:8080"))
-//		  .build()
-//		  .post()
-//		  .uri("/registration")
-//		  .body(BodyInserters.fromValue(request))
-//		  .retrieve()
-//		  .bodyToMono(NotificationRegistry.class);
 	}
 	
 	private Mono<Void> deregistration(NotificationRequest request) {
 		System.out.println("Id:" + request.getNotificationId());
-		WebClient webClient = WebClient.create();
 		return webClient
 			.method(HttpMethod.DELETE)
 			.uri("http://database-service:8080/deregistration")
 			.body(BodyInserters.fromValue(request))
 			.retrieve()
 			.bodyToMono(Void.class);
-			
-		
-		
-//		return webclient
-//		  .baseUrl("http://database-service:8080")
-//		  .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE) 
-//		  .defaultUriVariables(Collections.singletonMap("url", "http://database-service:8080"))
-//		  .build()
-//		  .method(HttpMethod.DELETE)
-//		  .uri("/deregistration")
-//		  .body(BodyInserters.fromValue(request))
-//		  .retrieve()
-//		  .bodyToMono(Void.class);
 	}
 
 //	public Mono<ServerResponse> push(@RequestBody ServerRequest request) {	
