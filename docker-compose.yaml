@@ -1,0 +1,88 @@
+version: "3.3"
+
+services:     
+  configuration-service:
+    container_name: configuration-service
+    image: configuration-service
+    build:
+      context: configuration-service
+      dockerfile: ./Dockerfile
+    ports:
+      - "8000:8000" 
+    networks:
+      - skynet
+       
+  discovery-service:
+    container_name: discovery-service
+    image: discovery-service
+    build:
+      context: discovery-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8001:8001"  
+    depends_on:
+      - configuration-service
+    command: ["sleep 20"]
+    networks:
+      - skynet
+            
+  gateway-service:
+    container_name: gateway-service
+    image: gateway-service
+    build:
+      context: gateway-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8008:8008" 
+    depends_on:
+      - configuration-service  
+    command: ["sleep 20"]
+    networks:
+      - skynet
+                     
+  notification-service:
+    container_name: notification-service
+    image: notification-service
+    build:
+      context: notification-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8081:8081"
+    depends_on:
+      - configuration-service
+      - database-service
+    command: ["sleep 20"] 
+    networks:
+      - skynet
+      
+  database-service:
+    container_name: database-service
+    image: database-service
+    build:
+      context: database-service
+      dockerfile: ./Dockerfile
+    ports:
+    - "8080:8080"
+    depends_on:
+      - configuration-service
+      - postgres
+    command: ["sleep 20"]
+    networks:
+      - skynet
+              
+  postgres:
+    container_name: postgres
+    image: postgres
+    ports:
+      - "5432:5432"
+    build:
+      context: database
+      dockerfile: ./Dockerfile
+    networks:
+      - skynet
+      
+networks:     
+    skynet:
+      driver: bridge
+      
+      

@@ -1,0 +1,13 @@
+server:
+  port:
+    8001
+
+eureka:
+  instance: 
+    hostname: discovery-service
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+    service-url:
+      degaultZone: http://${eureka.instance.host}:${server.port}/eureka/
+   
