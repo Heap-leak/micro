@@ -8,3 +8,9 @@ eureka:
       defaultZone: http://discovery-service:8001/eureka/
   instance:
     prefer-ip-address: true
+    
+spring:
+  r2dbc:
+    url: r2dbc:postgresql://postgres:5432/postgres_db
+    username: postgres
+    password: root

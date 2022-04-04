@@ -11,8 +11,10 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.cloud.gateway.route.RouteDefinition;
 import org.springframework.cloud.gateway.route.RouteDefinitionLocator;
 import org.springframework.context.annotation.Bean;
+import org.springframework.web.reactive.config.EnableWebFlux;
 
 @SpringBootApplication
+@EnableWebFlux
 @EnableDiscoveryClient
 public class GatewayServiceApplication {
 	public static void main(String[] args) {
