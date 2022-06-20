@@ -8,4 +8,4 @@ eureka:
       defaultZone: http://discovery-service:8001/eureka/
   instance:
     prefer-ip-address: true   
-   
+    
