@@ -13,10 +13,11 @@
   	<module>configuration-service</module>
   	<module>discovery-service</module>
   	<module>gateway-service</module>
+  	<module>frontend-service</module>
   </modules>
   
   <properties>
-  		<spring.boot.version>2.6.4</spring.boot.version>
+  		<spring.boot.version>2.6.7</spring.boot.version>
   		<spring.cloud.version>2021.0.1</spring.cloud.version>
   		<maven.compiler.plugin.version>3.8.1</maven.compiler.plugin.version>
         <maven.compiler.source>17</maven.compiler.source>
